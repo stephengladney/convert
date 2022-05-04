@@ -1,22 +1,12 @@
-type DecimalPoints = { float: number }
+import { InputMethod, DecimalPoints } from "./types"
 
-function convertToFloat(val: number, d?: DecimalPoints) {
-  return d ? Number(val.toFixed(d.float)) : val
-}
-
-export function convertTemperature(temp: number) {
-  return {
-    celsiusToFahrenheit: (d?: DecimalPoints) =>
-      convertToFloat((temp / 5) * 9 + 32, d),
-    fahrenheitToCelsius: (d?: DecimalPoints) =>
-      convertToFloat(((temp - 32) * 5) / 9, d)
-  }
-}
-
-export function convertLength(n: number) {
+export function convert(input: number | string) {
   let inMillimeters: number
+  let nInSeconds: number
+  let wordArray: string[] = []
+  let primaryMethods: InputMethod
 
-  const outputMethods = {
+  const lengthOutputMethods = {
     toCentimeters: (d?: DecimalPoints) => convertToFloat(inMillimeters / 10, d),
     toFeet: (d?: DecimalPoints) =>
       convertToFloat(inMillimeters / (25.4 * 12), d),
@@ -28,93 +18,10 @@ export function convertLength(n: number) {
       convertToFloat(inMillimeters / (25.4 * 12 * 5280), d),
     toMillimeters: (d?: DecimalPoints) => convertToFloat(inMillimeters, d),
     toYards: (d?: DecimalPoints) =>
-      convertToFloat(inMillimeters / (25.4 * 12 * 3), d)
+      convertToFloat(inMillimeters / (25.4 * 12 * 3), d),
   }
-  const inputMethods = {
-    millimeters: () => {
-      inMillimeters = n
-      return outputMethods
-    },
-    centimeters: () => {
-      inMillimeters = n * 10
-      return outputMethods
-    },
-    meters: () => {
-      inMillimeters = n * 1000
-      return outputMethods
-    },
-    kilometers: () => {
-      inMillimeters = n * 1000000
-      return outputMethods
-    },
-    inches: () => {
-      inMillimeters = n * 25.4
-      return outputMethods
-    },
-    feet: () => {
-      inMillimeters = n * 25.4 * 12
-      return outputMethods
-    },
-    yards: () => {
-      inMillimeters = n * 25.4 * 12 * 3
-      return outputMethods
-    },
-    miles: () => {
-      inMillimeters = n * 25.4 * 12 * 5280
-      return outputMethods
-    }
-  }
-  return inputMethods
-}
 
-/**```typescript
- *convertCase("helloWorld").toPascal() // "HelloWorld"
- * ```
- */
-export function convertCase(str: string) {
-  let wordArray = []
-  if (str.includes("_")) wordArray = str.split("_")
-  else if (str.includes("-")) wordArray = str.split("-")
-  else if (str.includes(" ")) wordArray = str.split(" ")
-  else {
-    const isLowerCase = str[0] === str[0].toLowerCase()
-    const wordStartIndexes = isLowerCase ? [0] : []
-    str
-      .split("")
-      .forEach((letter, i) =>
-        letter === letter.toUpperCase() ? wordStartIndexes.push(i) : null
-      )
-    wordStartIndexes.forEach((index, i) => {
-      const endOfWord = wordStartIndexes[i + 1]
-      wordArray.push(str.substring(index, endOfWord).toLowerCase())
-    })
-  }
-  return {
-    toConst: () => wordArray.join("_").toUpperCase(),
-    toKabob: () => wordArray.join("-").toLowerCase(),
-    toSnake: () => wordArray.join("_").toLowerCase(),
-    toPascal: () =>
-      wordArray
-        .map(
-          (word, i) =>
-            word.substr(0, 1).toUpperCase() + word.substr(1).toLowerCase()
-        )
-        .join(""),
-    toCamel: () =>
-      wordArray
-        .map((word, i) => {
-          return i === 0
-            ? word.toLowerCase()
-            : word.substr(0, 1).toUpperCase() + word.substr(1).toLowerCase()
-        })
-        .join(""),
-    toString: () => wordArray.join(" ").toLowerCase()
-  }
-}
-
-export function convertTime(n: number) {
-  let nInSeconds
-  const outputMethods = {
+  const timeOutputMethods = {
     toSeconds: () => nInSeconds,
     toMinutes: (d?: DecimalPoints) => convertToFloat(nInSeconds / 60, d),
     toHours: (d?: DecimalPoints) => convertToFloat(nInSeconds / 3600, d),
@@ -122,33 +29,124 @@ export function convertTime(n: number) {
     toWeeks: (d?: DecimalPoints) =>
       convertToFloat(nInSeconds / (3600 * 24 * 7), d),
     toYears: (d?: DecimalPoints) =>
-      convertToFloat(nInSeconds / (3600 * 24 * 364), d)
+      convertToFloat(nInSeconds / (3600 * 24 * 364), d),
   }
-  const inputMethods = {
-    seconds: () => {
-      nInSeconds = n
-      return outputMethods
-    },
-    minutes: () => {
-      nInSeconds = n * 60
-      return outputMethods
-    },
-    hours: () => {
-      nInSeconds = n * 3600
-      return outputMethods
-    },
-    days: () => {
-      nInSeconds = n * 3600 * 24
-      return outputMethods
-    },
-    weeks: () => {
-      nInSeconds = n * 3600 * 24 * 7
-      return outputMethods
-    },
-    years: () => {
-      nInSeconds = n * 3600 * 24 * 365
-      return outputMethods
+
+  const stringOutputMethods = {
+    toConstCase: () => wordArray.join("_").toUpperCase(),
+    toKabobCase: () => wordArray.join("-").toLowerCase(),
+    toSnakeCase: () => wordArray.join("_").toLowerCase(),
+    toPascalCase: () =>
+      wordArray
+        .map(
+          (word, i) =>
+            word.substr(0, 1).toUpperCase() + word.substr(1).toLowerCase()
+        )
+        .join(""),
+    toCamelCase: () =>
+      wordArray
+        .map((word, i) => {
+          return i === 0
+            ? word.toLowerCase()
+            : word.substr(0, 1).toUpperCase() + word.substr(1).toLowerCase()
+        })
+        .join(""),
+    toString: () => wordArray.join(" ").toLowerCase(),
+  }
+
+  if (typeof input === "string") {
+    if (input.includes("_")) wordArray = input.split("_")
+    else if (input.includes("-")) wordArray = input.split("-")
+    else if (input.includes(" ")) wordArray = input.split(" ")
+    else {
+      const isLowerCase = input[0] === input[0].toLowerCase()
+      const wordStartIndexes = isLowerCase ? [0] : []
+      input
+        .split("")
+        .forEach((letter: string, i: number) =>
+          letter === letter.toUpperCase() ? wordStartIndexes.push(i) : null
+        )
+      wordStartIndexes.forEach((index, i) => {
+        const endOfWord = wordStartIndexes[i + 1]
+        wordArray.push(input.substring(index, endOfWord).toLowerCase())
+      })
+    }
+    primaryMethods = { string: () => stringOutputMethods }
+  } else {
+    primaryMethods = {
+      seconds: () => {
+        nInSeconds = input
+        return timeOutputMethods
+      },
+      minutes: () => {
+        nInSeconds = input * 60
+        return timeOutputMethods
+      },
+      hours: () => {
+        nInSeconds = input * 3600
+        return timeOutputMethods
+      },
+      days: () => {
+        nInSeconds = input * 3600 * 24
+        return timeOutputMethods
+      },
+      weeks: () => {
+        nInSeconds = input * 3600 * 24 * 7
+        return timeOutputMethods
+      },
+      years: () => {
+        nInSeconds = input * 3600 * 24 * 365
+        return timeOutputMethods
+      },
+      millimeters: () => {
+        inMillimeters = input
+        return lengthOutputMethods
+      },
+      centimeters: () => {
+        inMillimeters = input * 10
+        return lengthOutputMethods
+      },
+      meters: () => {
+        inMillimeters = input * 1000
+        return lengthOutputMethods
+      },
+      kilometers: () => {
+        inMillimeters = input * 1000000
+        return lengthOutputMethods
+      },
+      inches: () => {
+        inMillimeters = input * 25.4
+        return lengthOutputMethods
+      },
+      feet: () => {
+        inMillimeters = input * 25.4 * 12
+        return lengthOutputMethods
+      },
+      yards: () => {
+        inMillimeters = input * 25.4 * 12 * 3
+        return lengthOutputMethods
+      },
+      miles: () => {
+        inMillimeters = input * 25.4 * 12 * 5280
+        return lengthOutputMethods
+      },
+      celsius: () => {
+        return {
+          toFahrenheit: (d?: DecimalPoints) =>
+            convertToFloat((input / 5) * 9 + 32, d),
+        }
+      },
+      fahrenheit: () => {
+        return {
+          toCelsius: (d?: DecimalPoints) =>
+            convertToFloat(((input - 32) * 5) / 9, d),
+        }
+      },
     }
   }
-  return inputMethods
+  return primaryMethods
+}
+
+function convertToFloat(val: number, d?: DecimalPoints) {
+  return d ? Number(val.toFixed(d.float)) : val
 }
