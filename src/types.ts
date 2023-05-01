@@ -1,46 +1,57 @@
 export type DecimalPoints = { float: number }
 
-export interface InputMethod {
-  seconds?: () => OutputMethod
-  minutes?: () => OutputMethod
-  hours?: () => OutputMethod
-  days?: () => OutputMethod
-  weeks?: () => OutputMethod
-  years?: () => OutputMethod
-  millimeters?: () => OutputMethod
-  centimeters?: () => OutputMethod
-  meters?: () => OutputMethod
-  kilometers?: () => OutputMethod
-  inches?: () => OutputMethod
-  feet?: () => OutputMethod
-  yards?: () => OutputMethod
-  miles?: () => OutputMethod
-  celsius?: () => OutputMethod
-  fahrenheit?: () => OutputMethod
-  string?: () => OutputMethod
+export interface TemperatureInputMethod {
+  celsius: () => TemperatureOutputMethod
+  fahrenheit: () => TemperatureOutputMethod
 }
 
-export interface OutputMethod {
-  toCentimeters?: (d?: DecimalPoints) => void
-  toFeet?: (d?: DecimalPoints) => void
-  toInches?: (d?: DecimalPoints) => void
-  toKilometers?: (d?: DecimalPoints) => void
-  toMeters?: (d?: DecimalPoints) => void
-  toMiles?: (d?: DecimalPoints) => void
-  toMillimeters?: (d?: DecimalPoints) => void
-  toYards?: (d?: DecimalPoints) => void
-  toSeconds?: (d?: DecimalPoints) => void
-  toMinutes?: (d?: DecimalPoints) => void
-  toHours?: (d?: DecimalPoints) => void
-  toDays?: (d?: DecimalPoints) => void
-  toWeeks?: (d?: DecimalPoints) => void
-  toYears?: (d?: DecimalPoints) => void
-  toFahrenheit?: (d?: DecimalPoints) => void
-  toCelsius?: (d?: DecimalPoints) => void
-  toCamelCase?: (d?: DecimalPoints) => void
-  toConstCase?: (d?: DecimalPoints) => void
-  toKabobCase?: (d?: DecimalPoints) => void
-  toPascalCase?: (d?: DecimalPoints) => void
-  toSnakeCase?: (d?: DecimalPoints) => void
-  toString?: (d?: DecimalPoints) => void
+export interface TemperatureOutputMethod {
+  toFahrenheit: (d?: DecimalPoints) => number
+  toCelsius: (d?: DecimalPoints) => number
+}
+export interface TimeInputMethod {
+  seconds: () => TimeOutputMethod
+  minutes: () => TimeOutputMethod
+  hours: () => TimeOutputMethod
+  days: () => TimeOutputMethod
+  weeks: () => TimeOutputMethod
+  years: () => TimeOutputMethod
+}
+
+export interface TimeOutputMethod {
+  toSeconds: (d?: DecimalPoints) => number
+  toMinutes: (d?: DecimalPoints) => number
+  toHours: (d?: DecimalPoints) => number
+  toDays: (d?: DecimalPoints) => number
+  toWeeks: (d?: DecimalPoints) => number
+  toYears: (d?: DecimalPoints) => number
+}
+export interface LenghInputMethod {
+  millimeters: () => LengthOutputMethod
+  centimeters: () => LengthOutputMethod
+  meters: () => LengthOutputMethod
+  kilometers: () => LengthOutputMethod
+  inches: () => LengthOutputMethod
+  feet: () => LengthOutputMethod
+  yards: () => LengthOutputMethod
+  miles: () => LengthOutputMethod
+}
+
+export interface LengthOutputMethod {
+  toCentimeters: (d?: DecimalPoints) => number
+  toFeet: (d?: DecimalPoints) => number
+  toInches: (d?: DecimalPoints) => number
+  toKilometers: (d?: DecimalPoints) => number
+  toMeters: (d?: DecimalPoints) => number
+  toMiles: (d?: DecimalPoints) => number
+  toMillimeters: (d?: DecimalPoints) => number
+  toYards: (d?: DecimalPoints) => number
+}
+export interface StringOutputMethod {
+  toCamelCase: () => string
+  toConstCase: () => string
+  toKabobCase: () => string
+  toPascalCase: () => string
+  toSnakeCase: () => string
+  toString: () => string
 }
