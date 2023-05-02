@@ -3,7 +3,7 @@ import {
   convertString,
   convertTemperature,
   convertTime,
-} from "./convert"
+} from "../src/convert"
 
 describe("STRING", () => {
   const cases = [
