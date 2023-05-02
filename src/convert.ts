@@ -5,7 +5,6 @@ import type {
   TemperatureInputMethod,
   LengthOutputMethod,
   TimeOutputMethod,
-  TemperatureOutputMethod,
   StringOutputMethod,
 } from "./types"
 

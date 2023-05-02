@@ -1,7 +1,7 @@
 {
   "name": "@gladney/convert",
-  "version": "1.0.1",
-  "description": "Library to perform common converting operations",
+  "version": "1.0.2",
+  "description": "Library to perform common conversion operations",
   "main": "convert.js",
   "devDependencies": {
     "@types/jest": "^29.5.1",
@@ -11,6 +11,14 @@
   "scripts": {
     "test": "jest"
   },
+  "keywords": [
+    "typescript",
+    "convert",
+    "length",
+    "distance",
+    "temperature",
+    "case"
+  ],
   "author": "Stephen Gladney",
   "license": "ISC"
 }
