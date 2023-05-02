@@ -36,7 +36,7 @@ String from one casing to another. Starting case is detected automatically.
 _Example:_
 
 ```typescript
-convertCase("helloWorld").toPascal() // "HelloWorld"
+convertCase("helloWorld").toPascalCase() // "HelloWorld"
 ```
 
 ### `convertTemperature`
