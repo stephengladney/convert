@@ -45,8 +45,8 @@ Temperature from/to Celsius/Fahrenheit<br><br>
 _Example:_
 
 ```typescript
-convertTemperature(100).celsiusToFahrenheit() // 212
-convertTemperature(32).fahrenheitToCelsius() // 0
+convertTemperature(100).celsius().ToFahrenheit() // 212
+convertTemperature(32).fahrenheit().ToCelsius() // 0
 ```
 
 ### `convertLength`
