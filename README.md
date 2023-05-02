@@ -1,6 +1,6 @@
-# :left_right_arrow: convert.ts
+# :left_right_arrow: @gladney/convert
 
-This is a library I created in order to perform common conversions. And to practice TypeScript.
+Utility library that performs commonly needed conversions.
 
 ## Helpful tips
 
@@ -8,22 +8,16 @@ This is a library I created in order to perform common conversions. And to pract
   _Example:_
 
 ```typescript
-convertLength(2)
-  .miles()
-  .toKilometers() // 3.218688
+convertLength(2).miles().toKilometers() // 3.218688
 
-convertLength(2)
-  .miles()
-  .toKilometers({ float: 2 }) // 3.22
+convertLength(2).miles().toKilometers({ float: 2 }) // 3.22
 
-convertLength(2)
-  .miles()
-  .toKilometers({ float: 0 }) // 3
+convertLength(2).miles().toKilometers({ float: 0 }) // 3
 ```
 
 ## Methods
 
-### `convertCase`
+### `convertString`
 
 String from one casing to another. Starting case is detected automatically.
 
@@ -81,9 +75,7 @@ Length from one unit to another (metric or imperial)
 _Example:_
 
 ```typescript
-convertLength(2)
-  .miles()
-  .toKilometers() // 3.218688
+convertLength(2).miles().toKilometers() // 3.218688
 ```
 
 ### `convertTime`
@@ -105,7 +97,5 @@ Length from one unit to another (metric or imperial)
 _Example:_
 
 ```typescript
-convertTime(2)
-  .weeks()
-  .toMinutes() // 20160
+convertTime(2).weeks().toMinutes() // 20160
 ```
