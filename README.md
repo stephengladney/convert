@@ -45,7 +45,9 @@ String from one casing to another. Starting case is detected automatically.
 _Example:_
 
 ```typescript
-convertCase("helloWorld").toPascalCase() // "HelloWorld"
+convert("helloWorld").toPascalCase() // "HelloWorld"
+
+convertString("helloWorld").toPascalCase() // "HelloWorld"
 ```
 
 ### `convertTemperature`
@@ -54,6 +56,9 @@ Temperature from/to Celsius/Fahrenheit<br><br>
 _Example:_
 
 ```typescript
+convert(100).celsius().toFahrenheit() // 212
+convert(32).fahrenheit().toCelsius() // 0
+
 convertTemperature(100).celsius().toFahrenheit() // 212
 convertTemperature(32).fahrenheit().toCelsius() // 0
 ```
@@ -84,6 +89,8 @@ Length from one unit to another (metric or imperial)
 _Example:_
 
 ```typescript
+convert(2).miles().toKilometers() // 3.218688
+
 convertLength(2).miles().toKilometers() // 3.218688
 ```
 
@@ -106,5 +113,7 @@ Length from one unit to another (metric or imperial)
 _Example:_
 
 ```typescript
+convert(2).weeks().toMinutes() // 20160
+
 convertTime(2).weeks().toMinutes() // 20160
 ```
