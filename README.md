@@ -13,7 +13,7 @@ Utility library that performs commonly needed conversions.
   convertLength(2).miles().toKilometers() // 3.218688
   ```
 
-- All methods that return numerical values can accept `{float: n}` as a parameter in the last method of the chain, where n is the number of float places.<br><br>
+- All methods that return numerical values can accept `{float: n}` as a parameter in the last method of the chain, where n is the number of decimal places to include.<br><br>
   _Example:_
 
 ```typescript
