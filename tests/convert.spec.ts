@@ -1,6 +1,6 @@
 import {
   convertLength,
-  convertString,
+  convert,
   convertTemperature,
   convertTime,
 } from "../src/convert"
@@ -36,7 +36,7 @@ describe("STRING", () => {
     if (inputCase !== "camelCase") {
       test(`${inputCase} -> camelCase`, () => {
         expect(
-          convertString(casedText[inputCase as keyof CasedText]).toCamelCase()
+          convert(String(casedText[inputCase as keyof CasedText])).toCamelCase()
         ).toEqual(casedText.camelCase)
       })
     }
@@ -44,7 +44,7 @@ describe("STRING", () => {
     if (inputCase !== "constCase") {
       test(`${inputCase} -> constCase`, () => {
         expect(
-          convertString(casedText[inputCase as keyof CasedText]).toConstCase()
+          convert(casedText[inputCase as keyof CasedText]).toConstCase()
         ).toEqual(casedText.constCase)
       })
     }
@@ -52,7 +52,7 @@ describe("STRING", () => {
     if (inputCase !== "kabobCase") {
       test(`${inputCase} -> kabobCase`, () => {
         expect(
-          convertString(casedText[inputCase as keyof CasedText]).toKabobCase()
+          convert(casedText[inputCase as keyof CasedText]).toKabobCase()
         ).toEqual(casedText.kabobCase)
       })
     }
@@ -60,7 +60,7 @@ describe("STRING", () => {
     if (inputCase !== "pascalCase") {
       test(`${inputCase} -> pascalCase`, () => {
         expect(
-          convertString(casedText[inputCase as keyof CasedText]).toPascalCase()
+          convert(casedText[inputCase as keyof CasedText]).toPascalCase()
         ).toEqual(casedText.pascalCase)
       })
     }
@@ -68,7 +68,7 @@ describe("STRING", () => {
     if (inputCase !== "snakeCase") {
       test(`${inputCase} -> snakeCase`, () => {
         expect(
-          convertString(casedText[inputCase as keyof CasedText]).toSnakeCase()
+          convert(casedText[inputCase as keyof CasedText]).toSnakeCase()
         ).toEqual(casedText.snakeCase)
       })
     }
@@ -76,7 +76,7 @@ describe("STRING", () => {
     if (inputCase !== "string") {
       test(`${inputCase} -> string`, () => {
         expect(
-          convertString(casedText[inputCase as keyof CasedText]).toString()
+          convert(casedText[inputCase as keyof CasedText]).toString()
         ).toEqual(casedText.string)
       })
     }

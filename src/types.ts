@@ -26,7 +26,7 @@ export interface TimeOutputMethod {
   toWeeks: (d?: DecimalPoints) => number
   toYears: (d?: DecimalPoints) => number
 }
-export interface LenghInputMethod {
+export interface LengthInputMethod {
   millimeters: () => LengthOutputMethod
   centimeters: () => LengthOutputMethod
   meters: () => LengthOutputMethod
