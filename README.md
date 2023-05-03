@@ -4,6 +4,15 @@ Utility library that performs commonly needed conversions.
 
 ## Helpful tips
 
+- There is a general `convert()` function that accepts a string or number and provides the appropriate methods accordingly. There are also individual functions like `convertString()`, `convertLength()`, `convertTime()`, and `convertTemperature()` which return limited methods accordingly.<br><br>
+  _Example:_
+
+  ```typescript
+  convert(2).miles().toKilometers() // 3.218688
+
+  convertLength(2).miles().toKilometers() // 3.218688
+  ```
+
 - All methods that return numerical values can accept `{float: n}` as a parameter in the last method of the chain, where n is the number of float places.<br><br>
   _Example:_
 
