@@ -2,33 +2,11 @@
 
 Utility library that performs commonly needed conversions.
 
-## Helpful tips
-
-- There is a general `convert()` function that accepts a string or number and provides the appropriate methods accordingly. There are also individual functions like `convertString()`, `convertLength()`, `convertTime()`, and `convertTemperature()` which return limited methods accordingly.<br><br>
-  _Example:_
-
-  ```typescript
-  convert(2).miles().toKilometers() // 3.218688
-
-  convertLength(2).miles().toKilometers() // 3.218688
-  ```
-
-- All methods that return numerical values can accept `{float: n}` as a parameter in the last method of the chain, where n is the number of decimal places to include.<br><br>
-  _Example:_
-
-```typescript
-convertLength(2).miles().toKilometers() // 3.218688
-
-convertLength(2).miles().toKilometers({ float: 2 }) // 3.22
-
-convertLength(2).miles().toKilometers({ float: 0 }) // 3
-```
-
 ## Methods
 
-### `convertString`
+### `Strings`
 
-String from one casing to another. Starting case is detected automatically.
+Convert a string to a particular case. The provided string can be in the format of any supported case.
 
 <details>
 <summary>Supported cases</summary>
@@ -45,9 +23,12 @@ String from one casing to another. Starting case is detected automatically.
 _Example:_
 
 ```typescript
-convert("helloWorld").toPascalCase() // "HelloWorld"
-
-convertString("helloWorld").toPascalCase() // "HelloWorld"
+camelCase("hello world") // "helloWorld"
+constCase("hello world") // "HELLO_WORLD"
+kabobCase("hello world") // "hello-world"
+pascalCase("hello world") // "HelloWorld"
+snakeCase("hello world") // "hello_world"
+deCase("helloWorld") // "hello world"
 ```
 
 ### `convertTemperature`
@@ -56,11 +37,8 @@ Temperature from/to Celsius/Fahrenheit<br><br>
 _Example:_
 
 ```typescript
-convert(100).celsius().toFahrenheit() // 212
-convert(32).fahrenheit().toCelsius() // 0
-
-convertTemperature(100).celsius().toFahrenheit() // 212
-convertTemperature(32).fahrenheit().toCelsius() // 0
+convertTemperature({ n:100, from"celsius", to:"fahrenheit" }) // 212
+convertTemperature({ n:32, from"fahrenheit", to:"celsius" }) // 0
 ```
 
 ### `convertLength`
@@ -89,9 +67,7 @@ Length from one unit to another (metric or imperial)
 _Example:_
 
 ```typescript
-convert(2).miles().toKilometers() // 3.218688
-
-convertLength(2).miles().toKilometers() // 3.218688
+convertLength({ n:2, from"miles", to:"kilometers" }) // 3.218688
 ```
 
 ### `convertTime`
@@ -113,7 +89,5 @@ Length from one unit to another (metric or imperial)
 _Example:_
 
 ```typescript
-convert(2).weeks().toMinutes() // 20160
-
-convertTime(2).weeks().toMinutes() // 20160
+convertTime({ n:2, from"weeks", to:"minutes" }) // 20160
 ```
