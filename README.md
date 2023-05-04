@@ -37,8 +37,8 @@ Temperature from/to Celsius/Fahrenheit<br><br>
 _Example:_
 
 ```typescript
-convertTemperature({ n:100, from"celsius", to:"fahrenheit" }) // 212
-convertTemperature({ n:32, from"fahrenheit", to:"celsius" }) // 0
+convertTemperature({ n: 100, from: "celsius", to: "fahrenheit" }) // 212
+convertTemperature({ n: 32, from: "fahrenheit", to: "celsius" }) // 0
 ```
 
 ### `convertLength`
@@ -67,7 +67,7 @@ Length from one unit to another (metric or imperial)
 _Example:_
 
 ```typescript
-convertLength({ n:2, from"miles", to:"kilometers" }) // 3.218688
+convertLength({ n: 2, from: "miles", to: "kilometers" }) // 3.218688
 ```
 
 ### `convertTime`
@@ -89,5 +89,5 @@ Length from one unit to another (metric or imperial)
 _Example:_
 
 ```typescript
-convertTime({ n:2, from"weeks", to:"minutes" }) // 20160
+convertTime({ n: 2, from: "weeks", to: "minutes" }) // 20160
 ```
