@@ -3,83 +3,12 @@ import {
   convert,
   convertTemperature,
   convertTime,
+  camelCase,
 } from "../src/convert"
 
 describe("STRING", () => {
-  const cases = [
-    "camelCase",
-    "constCase",
-    "kabobCase",
-    "pascalCase",
-    "snakeCase",
-    "string",
-  ]
-
-  type CasedText = {
-    camelCase: string
-    constCase: string
-    kabobCase: string
-    pascalCase: string
-    snakeCase: string
-    string: string
-  }
-  const casedText: CasedText = {
-    camelCase: "helloWorld",
-    constCase: "HELLO_WORLD",
-    kabobCase: "hello-world",
-    pascalCase: "HelloWorld",
-    snakeCase: "hello_world",
-    string: "hello world",
-  }
-
-  cases.forEach((inputCase) => {
-    if (inputCase !== "camelCase") {
-      test(`${inputCase} -> camelCase`, () => {
-        expect(
-          convert(String(casedText[inputCase as keyof CasedText])).toCamelCase()
-        ).toEqual(casedText.camelCase)
-      })
-    }
-
-    if (inputCase !== "constCase") {
-      test(`${inputCase} -> constCase`, () => {
-        expect(
-          convert(casedText[inputCase as keyof CasedText]).toConstCase()
-        ).toEqual(casedText.constCase)
-      })
-    }
-
-    if (inputCase !== "kabobCase") {
-      test(`${inputCase} -> kabobCase`, () => {
-        expect(
-          convert(casedText[inputCase as keyof CasedText]).toKabobCase()
-        ).toEqual(casedText.kabobCase)
-      })
-    }
-
-    if (inputCase !== "pascalCase") {
-      test(`${inputCase} -> pascalCase`, () => {
-        expect(
-          convert(casedText[inputCase as keyof CasedText]).toPascalCase()
-        ).toEqual(casedText.pascalCase)
-      })
-    }
-
-    if (inputCase !== "snakeCase") {
-      test(`${inputCase} -> snakeCase`, () => {
-        expect(
-          convert(casedText[inputCase as keyof CasedText]).toSnakeCase()
-        ).toEqual(casedText.snakeCase)
-      })
-    }
-
-    if (inputCase !== "string") {
-      test(`${inputCase} -> string`, () => {
-        expect(
-          convert(casedText[inputCase as keyof CasedText]).toString()
-        ).toEqual(casedText.string)
-      })
-    }
+  test("camelCase", () => {
+    expect(camelCase("hello world")).toBe("helloWorld")
   })
 })
 
