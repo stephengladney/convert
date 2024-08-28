@@ -14,33 +14,6 @@ function convertToFloat(val: number, d?: DecimalPoints) {
   return d ? Number(val.toFixed(d.float)) : val
 }
 
-const getTimeOutputMethods: TimeOutputConstructor = (input: number) => ({
-  toSeconds: () => input,
-  toMinutes: (d?: DecimalPoints) => convertToFloat(input / 60, d),
-  toHours: (d?: DecimalPoints) => convertToFloat(input / 3600, d),
-  toDays: (d?: DecimalPoints) => convertToFloat(input / (3600 * 24), d),
-  toWeeks: (d?: DecimalPoints) => convertToFloat(input / (3600 * 24 * 7), d),
-  toMonths: (d?: DecimalPoints) =>
-    convertToFloat(input / (3600 * 24 * 7 * averageDaysInMonth), d),
-  toYears: (d?: DecimalPoints) => convertToFloat(input / (3600 * 24 * 364), d),
-})
-
-const getLengthOutputMethods: LengthOutputConstructor = (
-  inMillimeters: number
-) => ({
-  toCentimeters: (d?: DecimalPoints) => convertToFloat(inMillimeters / 10, d),
-  toFeet: (d?: DecimalPoints) => convertToFloat(inMillimeters / (25.4 * 12), d),
-  toInches: (d?: DecimalPoints) => convertToFloat(inMillimeters / 25.4, d),
-  toKilometers: (d?: DecimalPoints) =>
-    convertToFloat(inMillimeters / 1000000, d),
-  toMeters: (d?: DecimalPoints) => convertToFloat(inMillimeters / 1000, d),
-  toMiles: (d?: DecimalPoints) =>
-    convertToFloat(inMillimeters / (25.4 * 12 * 5280), d),
-  toMillimeters: (d?: DecimalPoints) => convertToFloat(inMillimeters, d),
-  toYards: (d?: DecimalPoints) =>
-    convertToFloat(inMillimeters / (25.4 * 12 * 3), d),
-})
-
 const averageDaysInMonth = 30.4
 
 export function convert(input: string): StringOutputMethod
