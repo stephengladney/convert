@@ -8,11 +8,11 @@ Utility library that performs commonly needed conversions.
   _Example:_
 
 ```typescript
-convertLength(2).miles().toKilometers() // 3.218688
+convertLength(2).miles.toKilometers() // 3.218688
 
-convertLength(2).miles().toKilometers({ float: 2 }) // 3.22
+convertLength(2).miles.toKilometers({ float: 2 }) // 3.22
 
-convertLength(2).miles().toKilometers({ float: 0 }) // 3
+convertLength(2).miles.toKilometers({ float: 0 }) // 3
 ```
 
 ## Methods
@@ -45,8 +45,8 @@ Temperature from/to Celsius/Fahrenheit<br><br>
 _Example:_
 
 ```typescript
-convertTemperature(100).celsius().toFahrenheit() // 212
-convertTemperature(32).fahrenheit().toCelsius() // 0
+convertTemperature(100).celsius.toFahrenheit() // 212
+convertTemperature(32).fahrenheit.toCelsius() // 0
 ```
 
 ### `convertLength`
@@ -75,7 +75,7 @@ Length from one unit to another (metric or imperial)
 _Example:_
 
 ```typescript
-convertLength(2).miles().toKilometers() // 3.218688
+convertLength(2).miles.toKilometers() // 3.218688
 ```
 
 ### `convertTime`
@@ -97,5 +97,5 @@ Length from one unit to another (metric or imperial)
 _Example:_
 
 ```typescript
-convertTime(2).weeks().toMinutes() // 20160
+convertTime(2).weeks.toMinutes() // 20160
 ```

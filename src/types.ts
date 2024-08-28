@@ -1,21 +1,30 @@
 export type DecimalPoints = { float: number }
 
+export type LengthOutputConstructor = (
+  inMillimeters: number
+) => LengthOutputMethod
+export type TimeOutputConstructor = (inMillimeters: number) => TimeOutputMethod
+
 export interface TemperatureInputMethod {
-  celsius: () => TemperatureOutputMethod
-  fahrenheit: () => TemperatureOutputMethod
+  celsius: TemperatureOutputMethodC
+  fahrenheit: TemperatureOutputMethodF
 }
 
-export interface TemperatureOutputMethod {
-  toFahrenheit: (d?: DecimalPoints) => number
+export interface TemperatureOutputMethodF {
   toCelsius: (d?: DecimalPoints) => number
 }
+
+export interface TemperatureOutputMethodC {
+  toFahrenheit: (d?: DecimalPoints) => number
+}
 export interface TimeInputMethod {
-  seconds: () => TimeOutputMethod
-  minutes: () => TimeOutputMethod
-  hours: () => TimeOutputMethod
-  days: () => TimeOutputMethod
-  weeks: () => TimeOutputMethod
-  years: () => TimeOutputMethod
+  seconds: TimeOutputMethod
+  minutes: TimeOutputMethod
+  hours: TimeOutputMethod
+  days: TimeOutputMethod
+  weeks: TimeOutputMethod
+  months: TimeOutputMethod
+  years: TimeOutputMethod
 }
 
 export interface TimeOutputMethod {
@@ -24,17 +33,18 @@ export interface TimeOutputMethod {
   toHours: (d?: DecimalPoints) => number
   toDays: (d?: DecimalPoints) => number
   toWeeks: (d?: DecimalPoints) => number
+  toMonths: (d?: DecimalPoints) => number
   toYears: (d?: DecimalPoints) => number
 }
 export interface LenghInputMethod {
-  millimeters: () => LengthOutputMethod
-  centimeters: () => LengthOutputMethod
-  meters: () => LengthOutputMethod
-  kilometers: () => LengthOutputMethod
-  inches: () => LengthOutputMethod
-  feet: () => LengthOutputMethod
-  yards: () => LengthOutputMethod
-  miles: () => LengthOutputMethod
+  millimeters: LengthOutputMethod
+  centimeters: LengthOutputMethod
+  meters: LengthOutputMethod
+  kilometers: LengthOutputMethod
+  inches: LengthOutputMethod
+  feet: LengthOutputMethod
+  yards: LengthOutputMethod
+  miles: LengthOutputMethod
 }
 
 export interface LengthOutputMethod {

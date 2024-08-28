@@ -2,11 +2,83 @@ import type {
   DecimalPoints,
   LenghInputMethod,
   TimeInputMethod,
-  TemperatureInputMethod,
-  LengthOutputMethod,
-  TimeOutputMethod,
+  TimeOutputConstructor,
+  LengthOutputConstructor,
   StringOutputMethod,
+  TemperatureInputMethod,
+  TemperatureOutputMethodC,
+  TemperatureOutputMethodF,
 } from "./types"
+
+function convertToFloat(val: number, d?: DecimalPoints) {
+  return d ? Number(val.toFixed(d.float)) : val
+}
+
+const getTimeOutputMethods: TimeOutputConstructor = (input: number) => ({
+  toSeconds: () => input,
+  toMinutes: (d?: DecimalPoints) => convertToFloat(input / 60, d),
+  toHours: (d?: DecimalPoints) => convertToFloat(input / 3600, d),
+  toDays: (d?: DecimalPoints) => convertToFloat(input / (3600 * 24), d),
+  toWeeks: (d?: DecimalPoints) => convertToFloat(input / (3600 * 24 * 7), d),
+  toMonths: (d?: DecimalPoints) =>
+    convertToFloat(input / (3600 * 24 * 7 * averageDaysInMonth), d),
+  toYears: (d?: DecimalPoints) => convertToFloat(input / (3600 * 24 * 364), d),
+})
+
+const getLengthOutputMethods: LengthOutputConstructor = (
+  inMillimeters: number
+) => ({
+  toCentimeters: (d?: DecimalPoints) => convertToFloat(inMillimeters / 10, d),
+  toFeet: (d?: DecimalPoints) => convertToFloat(inMillimeters / (25.4 * 12), d),
+  toInches: (d?: DecimalPoints) => convertToFloat(inMillimeters / 25.4, d),
+  toKilometers: (d?: DecimalPoints) =>
+    convertToFloat(inMillimeters / 1000000, d),
+  toMeters: (d?: DecimalPoints) => convertToFloat(inMillimeters / 1000, d),
+  toMiles: (d?: DecimalPoints) =>
+    convertToFloat(inMillimeters / (25.4 * 12 * 5280), d),
+  toMillimeters: (d?: DecimalPoints) => convertToFloat(inMillimeters, d),
+  toYards: (d?: DecimalPoints) =>
+    convertToFloat(inMillimeters / (25.4 * 12 * 3), d),
+})
+
+const averageDaysInMonth = 30.4
+
+export function convert(input: string): StringOutputMethod
+export function convert(
+  input: number
+): LenghInputMethod & TimeInputMethod & TemperatureInputMethod
+export function convert(input: string | number) {
+  if (typeof input === "string") return convertString(input)
+  else if (typeof input === "number") {
+    return {
+      millimeters: getLengthOutputMethods(input),
+      centimeters: getLengthOutputMethods(input * 10),
+      meters: getLengthOutputMethods(input * 1000),
+      kilometers: getLengthOutputMethods(input * 1000000),
+      inches: getLengthOutputMethods(input * 25.4),
+      feet: getLengthOutputMethods(input * 25.4 * 12),
+      yards: getLengthOutputMethods(input * 25.4 * 12 * 3),
+      miles: getLengthOutputMethods(input * 25.4 * 12 * 5280),
+      seconds: getTimeOutputMethods(input),
+      minutes: getTimeOutputMethods(input * 60),
+      hours: getTimeOutputMethods(input * 3600),
+      days: getTimeOutputMethods(input * 3600 * 24),
+      weeks: getTimeOutputMethods(input * 3600 * 24 * 7),
+      months: getTimeOutputMethods(
+        Math.floor(input * 3600 * 24 * averageDaysInMonth)
+      ),
+      years: getTimeOutputMethods(input * 3600 * 24 * 365),
+      celsius: {
+        toFahrenheit: (d?: DecimalPoints) =>
+          convertToFloat((input / 5) * 9 + 32, d),
+      } as TemperatureOutputMethodC,
+      fahrenheit: {
+        toCelsius: (d?: DecimalPoints) =>
+          convertToFloat(((input - 32) * 5) / 9, d),
+      } as TemperatureOutputMethodF,
+    }
+  }
+}
 
 export function convertString(input: string): StringOutputMethod {
   let wordArray: string[] = []
@@ -53,9 +125,9 @@ export function convertString(input: string): StringOutputMethod {
 }
 
 export function convertLength(input: number): LenghInputMethod {
-  let inMillimeters: number
-
-  const lengthOutputMethods: LengthOutputMethod = {
+  const getLengthOutputMethods: LengthOutputConstructor = (
+    inMillimeters: number
+  ) => ({
     toCentimeters: (d?: DecimalPoints) => convertToFloat(inMillimeters / 10, d),
     toFeet: (d?: DecimalPoints) =>
       convertToFloat(inMillimeters / (25.4 * 12), d),
@@ -68,103 +140,57 @@ export function convertLength(input: number): LenghInputMethod {
     toMillimeters: (d?: DecimalPoints) => convertToFloat(inMillimeters, d),
     toYards: (d?: DecimalPoints) =>
       convertToFloat(inMillimeters / (25.4 * 12 * 3), d),
-  }
+  })
 
   return {
-    millimeters: () => {
-      inMillimeters = input
-      return lengthOutputMethods
-    },
-    centimeters: () => {
-      inMillimeters = input * 10
-      return lengthOutputMethods
-    },
-    meters: () => {
-      inMillimeters = input * 1000
-      return lengthOutputMethods
-    },
-    kilometers: () => {
-      inMillimeters = input * 1000000
-      return lengthOutputMethods
-    },
-    inches: () => {
-      inMillimeters = input * 25.4
-      return lengthOutputMethods
-    },
-    feet: () => {
-      inMillimeters = input * 25.4 * 12
-      return lengthOutputMethods
-    },
-    yards: () => {
-      inMillimeters = input * 25.4 * 12 * 3
-      return lengthOutputMethods
-    },
-    miles: () => {
-      inMillimeters = input * 25.4 * 12 * 5280
-      return lengthOutputMethods
-    },
+    millimeters: getLengthOutputMethods(input),
+    centimeters: getLengthOutputMethods(input * 10),
+    meters: getLengthOutputMethods(input * 1000),
+    kilometers: getLengthOutputMethods(input * 1000000),
+    inches: getLengthOutputMethods(input * 25.4),
+    feet: getLengthOutputMethods(input * 25.4 * 12),
+    yards: getLengthOutputMethods(input * 25.4 * 12 * 3),
+    miles: getLengthOutputMethods(input * 25.4 * 12 * 5280),
   }
 }
 
 export function convertTime(input: number): TimeInputMethod {
-  let nInSeconds: number
-  const timeOutputMethods: TimeOutputMethod = {
-    toSeconds: () => nInSeconds,
-    toMinutes: (d?: DecimalPoints) => convertToFloat(nInSeconds / 60, d),
-    toHours: (d?: DecimalPoints) => convertToFloat(nInSeconds / 3600, d),
-    toDays: (d?: DecimalPoints) => convertToFloat(nInSeconds / (3600 * 24), d),
-    toWeeks: (d?: DecimalPoints) =>
-      convertToFloat(nInSeconds / (3600 * 24 * 7), d),
+  const getTimeOutputMethods: TimeOutputConstructor = (input: number) => ({
+    toSeconds: () => input,
+    toMinutes: (d?: DecimalPoints) => convertToFloat(input / 60, d),
+    toHours: (d?: DecimalPoints) => convertToFloat(input / 3600, d),
+    toDays: (d?: DecimalPoints) => convertToFloat(input / (3600 * 24), d),
+    toWeeks: (d?: DecimalPoints) => convertToFloat(input / (3600 * 24 * 7), d),
+    toMonths: (d?: DecimalPoints) =>
+      convertToFloat(input / (3600 * 24 * 7 * averageDaysInMonth), d),
     toYears: (d?: DecimalPoints) =>
-      convertToFloat(nInSeconds / (3600 * 24 * 364), d),
-  }
+      convertToFloat(input / (3600 * 24 * 364), d),
+  })
+
+  const averageDaysInMonth = 30.4
+
   return {
-    seconds: () => {
-      nInSeconds = input
-      return timeOutputMethods
-    },
-    minutes: () => {
-      nInSeconds = input * 60
-      return timeOutputMethods
-    },
-    hours: () => {
-      nInSeconds = input * 3600
-      return timeOutputMethods
-    },
-    days: () => {
-      nInSeconds = input * 3600 * 24
-      return timeOutputMethods
-    },
-    weeks: () => {
-      nInSeconds = input * 3600 * 24 * 7
-      return timeOutputMethods
-    },
-    years: () => {
-      nInSeconds = input * 3600 * 24 * 365
-      return timeOutputMethods
-    },
+    seconds: getTimeOutputMethods(input),
+    minutes: getTimeOutputMethods(input * 60),
+    hours: getTimeOutputMethods(input * 3600),
+    days: getTimeOutputMethods(input * 3600 * 24),
+    weeks: getTimeOutputMethods(input * 3600 * 24 * 7),
+    months: getTimeOutputMethods(
+      Math.floor(input * 3600 * 24 * averageDaysInMonth)
+    ),
+    years: getTimeOutputMethods(input * 3600 * 24 * 365),
   }
 }
 
-export function convertTemperature(input: number): TemperatureInputMethod {
+export function convertTemperature(input: number) {
   return {
-    celsius: () => {
-      return {
-        toCelsius: (d?: DecimalPoints) => input,
-        toFahrenheit: (d?: DecimalPoints) =>
-          convertToFloat((input / 5) * 9 + 32, d),
-      }
-    },
-    fahrenheit: () => {
-      return {
-        toCelsius: (d?: DecimalPoints) =>
-          convertToFloat(((input - 32) * 5) / 9, d),
-        toFahrenheit: (d?: DecimalPoints) => input,
-      }
-    },
+    celsius: {
+      toFahrenheit: (d?: DecimalPoints) =>
+        convertToFloat((input / 5) * 9 + 32, d),
+    } as TemperatureOutputMethodC,
+    fahrenheit: {
+      toCelsius: (d?: DecimalPoints) =>
+        convertToFloat(((input - 32) * 5) / 9, d),
+    } as TemperatureOutputMethodF,
   }
-}
-
-function convertToFloat(val: number, d?: DecimalPoints) {
-  return d ? Number(val.toFixed(d.float)) : val
 }

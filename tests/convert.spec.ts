@@ -129,20 +129,17 @@ describe("LENGTH", () => {
 
   const getResultMap = (inputCase: keyof ResultMap) => {
     const resultMap: ResultMap = {
-      Millimeters: convertLength(
-        twoMiles[inputCase as keyof TwoMiles]
-      ).millimeters(),
-      Centimeters: convertLength(
-        twoMiles[inputCase as keyof TwoMiles]
-      ).centimeters(),
-      Meters: convertLength(twoMiles[inputCase as keyof TwoMiles]).meters(),
-      Kilometers: convertLength(
-        twoMiles[inputCase as keyof TwoMiles]
-      ).kilometers(),
-      Inches: convertLength(twoMiles[inputCase as keyof TwoMiles]).inches(),
-      Feet: convertLength(twoMiles[inputCase as keyof TwoMiles]).feet(),
-      Yards: convertLength(twoMiles[inputCase as keyof TwoMiles]).yards(),
-      Miles: convertLength(twoMiles[inputCase as keyof TwoMiles]).miles(),
+      Millimeters: convertLength(twoMiles[inputCase as keyof TwoMiles])
+        .millimeters,
+      Centimeters: convertLength(twoMiles[inputCase as keyof TwoMiles])
+        .centimeters,
+      Meters: convertLength(twoMiles[inputCase as keyof TwoMiles]).meters,
+      Kilometers: convertLength(twoMiles[inputCase as keyof TwoMiles])
+        .kilometers,
+      Inches: convertLength(twoMiles[inputCase as keyof TwoMiles]).inches,
+      Feet: convertLength(twoMiles[inputCase as keyof TwoMiles]).feet,
+      Yards: convertLength(twoMiles[inputCase as keyof TwoMiles]).yards,
+      Miles: convertLength(twoMiles[inputCase as keyof TwoMiles]).miles,
     }
     return resultMap[inputCase]
   }
@@ -240,26 +237,26 @@ describe("LENGTH", () => {
   })
 
   test("applies appropriate float", () => {
-    expect(convertLength(2).miles().toKilometers({ float: 2 })).toEqual(3.22)
-    expect(convertLength(2).miles().toMeters({ float: 1 })).toEqual(3218.7)
-    expect(convertLength(2).miles().toMeters({ float: 0 })).toEqual(3219)
+    expect(convertLength(2).miles.toKilometers({ float: 2 })).toEqual(3.22)
+    expect(convertLength(2).miles.toMeters({ float: 1 })).toEqual(3218.7)
+    expect(convertLength(2).miles.toMeters({ float: 0 })).toEqual(3219)
   })
 })
 
 describe("TEMPERATURE", () => {
   test("Celsius -> Fahrenheit", () => {
-    expect(convertTemperature(0).celsius().toFahrenheit()).toEqual(32)
+    expect(convertTemperature(0).celsius.toFahrenheit()).toEqual(32)
   })
 
   test("Fahrenheit -> Celsius", () => {
-    expect(convertTemperature(32).fahrenheit().toCelsius()).toEqual(0)
+    expect(convertTemperature(32).fahrenheit.toCelsius()).toEqual(0)
   })
 
   test("applies appropriate float", () => {
-    expect(convertTemperature(28).fahrenheit().toCelsius({ float: 2 })).toEqual(
+    expect(convertTemperature(28).fahrenheit.toCelsius({ float: 2 })).toEqual(
       -2.22
     )
-    expect(convertTemperature(38).celsius().toFahrenheit({ float: 1 })).toEqual(
+    expect(convertTemperature(38).celsius.toFahrenheit({ float: 1 })).toEqual(
       100.4
     )
   })
@@ -297,12 +294,12 @@ describe("TIME", () => {
 
   const getResultMap = (inputCase: keyof ResultMap) => {
     const resultMap: ResultMap = {
-      Seconds: convertTime(oneYear[inputCase as keyof OneYear]).seconds(),
-      Minutes: convertTime(oneYear[inputCase as keyof OneYear]).minutes(),
-      Hours: convertTime(oneYear[inputCase as keyof OneYear]).hours(),
-      Days: convertTime(oneYear[inputCase as keyof OneYear]).days(),
-      Weeks: convertTime(oneYear[inputCase as keyof OneYear]).weeks(),
-      Years: convertTime(oneYear[inputCase as keyof OneYear]).years(),
+      Seconds: convertTime(oneYear[inputCase as keyof OneYear]).seconds,
+      Minutes: convertTime(oneYear[inputCase as keyof OneYear]).minutes,
+      Hours: convertTime(oneYear[inputCase as keyof OneYear]).hours,
+      Days: convertTime(oneYear[inputCase as keyof OneYear]).days,
+      Weeks: convertTime(oneYear[inputCase as keyof OneYear]).weeks,
+      Years: convertTime(oneYear[inputCase as keyof OneYear]).years,
     }
     return resultMap[inputCase]
   }

@@ -1,8 +1,8 @@
 {
-  "name": "@gladney/convert",
-  "version": "1.0.4",
+  "name": "@gladknee/convert",
+  "version": "1.1.0",
   "description": "Library to perform common conversion operations",
-  "main": "convert.js",
+  "main": "dist/convert.js",
   "devDependencies": {
     "@types/jest": "^29.5.1",
     "jest": "^29.5.0",
