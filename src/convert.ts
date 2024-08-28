@@ -51,23 +51,8 @@ export function convert(input: string | number) {
   if (typeof input === "string") return convertString(input)
   else if (typeof input === "number") {
     return {
-      millimeters: getLengthOutputMethods(input),
-      centimeters: getLengthOutputMethods(input * 10),
-      meters: getLengthOutputMethods(input * 1000),
-      kilometers: getLengthOutputMethods(input * 1000000),
-      inches: getLengthOutputMethods(input * 25.4),
-      feet: getLengthOutputMethods(input * 25.4 * 12),
-      yards: getLengthOutputMethods(input * 25.4 * 12 * 3),
-      miles: getLengthOutputMethods(input * 25.4 * 12 * 5280),
-      seconds: getTimeOutputMethods(input),
-      minutes: getTimeOutputMethods(input * 60),
-      hours: getTimeOutputMethods(input * 3600),
-      days: getTimeOutputMethods(input * 3600 * 24),
-      weeks: getTimeOutputMethods(input * 3600 * 24 * 7),
-      months: getTimeOutputMethods(
-        Math.floor(input * 3600 * 24 * averageDaysInMonth)
-      ),
-      years: getTimeOutputMethods(input * 3600 * 24 * 365),
+      ...getLengthInput,
+      ...getTimeInput,
       celsius: {
         toFahrenheit: (d?: DecimalPoints) =>
           convertToFloat((input / 5) * 9 + 32, d),
@@ -124,10 +109,8 @@ export function convertString(input: string): StringOutputMethod {
   return stringOutputMethods
 }
 
-export function convertLength(input: number): LenghInputMethod {
-  const getLengthOutputMethods: LengthOutputConstructor = (
-    inMillimeters: number
-  ) => ({
+function getLengthInput(inMillimeters: number) {
+  return {
     toCentimeters: (d?: DecimalPoints) => convertToFloat(inMillimeters / 10, d),
     toFeet: (d?: DecimalPoints) =>
       convertToFloat(inMillimeters / (25.4 * 12), d),
@@ -140,7 +123,13 @@ export function convertLength(input: number): LenghInputMethod {
     toMillimeters: (d?: DecimalPoints) => convertToFloat(inMillimeters, d),
     toYards: (d?: DecimalPoints) =>
       convertToFloat(inMillimeters / (25.4 * 12 * 3), d),
-  })
+  }
+}
+
+export function convertLength(input: number): LenghInputMethod {
+  const getLengthOutputMethods: LengthOutputConstructor = (
+    inMillimeters: number
+  ) => getLengthInput(inMillimeters)
 
   return {
     millimeters: getLengthOutputMethods(input),
@@ -154,8 +143,8 @@ export function convertLength(input: number): LenghInputMethod {
   }
 }
 
-export function convertTime(input: number): TimeInputMethod {
-  const getTimeOutputMethods: TimeOutputConstructor = (input: number) => ({
+function getTimeInput(input: number) {
+  return {
     toSeconds: () => input,
     toMinutes: (d?: DecimalPoints) => convertToFloat(input / 60, d),
     toHours: (d?: DecimalPoints) => convertToFloat(input / 3600, d),
@@ -165,7 +154,12 @@ export function convertTime(input: number): TimeInputMethod {
       convertToFloat(input / (3600 * 24 * 7 * averageDaysInMonth), d),
     toYears: (d?: DecimalPoints) =>
       convertToFloat(input / (3600 * 24 * 364), d),
-  })
+  }
+}
+
+export function convertTime(input: number): TimeInputMethod {
+  const getTimeOutputMethods: TimeOutputConstructor = (input: number) =>
+    getTimeInput(input)
 
   const averageDaysInMonth = 30.4
 
